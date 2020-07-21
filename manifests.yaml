@@ -39,6 +39,27 @@ items:
       spec:
         containers:
         - env:
+          - name: DEBUG
+            value: "false"
+          - name: POSTGRES_USER
+            value: postgres
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: postgresql-password
+                name: postgres-postgresql
+          - name: POSTGRES_DB
+            value: postgres
+          image: severalnines/clustercontrol
+          imagePullPolicy: IfNotPresent
+        - env:
+          ports:
+          - containerPort: 80
+            name: clustercontrol-http
+            protocol: TCP
+          - containerPort: 443
+            name: clustercontrol-https
+            protocol: TCP
           - name: BITNAMI_DEBUG
             value: "false"
           - name: POSTGRESQL_PORT_NUMBER
